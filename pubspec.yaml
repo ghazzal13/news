@@ -18,6 +18,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_launcher_icons: ^0.11.0
+  flutter_native_splash: ^2.2.16
   form_validator: ^1.0.2
   get_it: ^7.2.0
   http: ^0.13.5
@@ -35,3 +37,15 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - asset/image/
+
+flutter_native_splash:
+  color: "#595959"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "asset/image/News-1.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
