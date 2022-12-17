@@ -17,15 +17,10 @@ Future<void> init() async {
   //bloc
   //
   sl.registerFactory(() => PostsBloc(getAllPosts: sl()));
-  // sl.registerFactory(() => AddUpdateDeletePostBloc(
-  //     addPost: sl(), updatePost: sl(), deletePost: sl()));
 
 //usecase
 //
   sl.registerLazySingleton(() => GetAllPostsUsecase(sl()));
-  // sl.registerLazySingleton(() => AddPostUsecase(sl()));
-  // sl.registerLazySingleton(() => DeletePostUsecase(sl()));
-  // sl.registerLazySingleton(() => UpdatePostUsecase(sl()));
 
   //repository
   //
