@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/widgets/loading_widget.dart';
 import '../blocs/posts/posts_bloc.dart';
@@ -7,18 +8,45 @@ import '../widgets/posts_page/message_display_widget.dart';
 import '../widgets/posts_page/post_list_widget.dart';
 
 class NewsPage extends StatefulWidget {
-  const NewsPage({Key? key}) : super(key: key);
+  final String country;
+  const NewsPage({Key? key, required this.country}) : super(key: key);
 
   @override
-  State<NewsPage> createState() => _NewsPageState();
+  State<NewsPage> createState() => _NewsPageState(country: country);
 }
 
 class _NewsPageState extends State<NewsPage> {
+  Future<void> get(String c) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('country', c);
+    sherad();
+  }
+
+  var vv;
+  Future<void> sherad() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      vv = prefs.getString('country') ?? 'us';
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    sherad();
+  }
+
+  String country;
+  _NewsPageState({required this.country});
+
   @override
   Widget build(BuildContext context) {
-    String dropdownValue = 'us';
+    var dropdownValue = vv;
     return Scaffold(
-      appBar: _buildAppbar(dropdownValue),
+      appBar: _buildAppbar(
+        dropdownValue,
+      ),
       body: _buildBody(),
     );
   }
@@ -45,27 +73,29 @@ class _NewsPageState extends State<NewsPage> {
                 color: const Color.fromARGB(255, 255, 255, 255),
               ),
               onChanged: (String? newValue) {
+                dropdownValue = newValue!;
                 setState(() {
-                  dropdownValue = newValue!;
+                  get(newValue).then((value) => {
+                        BlocProvider.of<PostsBloc>(context)
+                            .add(RefreshPostsEvent())
+                      });
                 });
               },
               items: <String>[
-                'ar',
                 'us',
-                'ch',
                 'fr',
                 'ae',
-                'ua',
+                'it',
+                'pt',
+                'ru',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Expanded(
-                    child: Text(
-                      value,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Color.fromRGBO(255, 125, 0, 1),
-                      ),
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Color.fromRGBO(255, 125, 0, 1),
                     ),
                   ),
                 );
@@ -99,6 +129,8 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   Future<void> _onRefresh(BuildContext context) async {
-    BlocProvider.of<PostsBloc>(context).add(RefreshPostsEvent());
+    setState(() {
+      BlocProvider.of<PostsBloc>(context).add(RefreshPostsEvent());
+    });
   }
 }
