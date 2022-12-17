@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/app_theme.dart';
 import 'features/posts/di/posts_injector.dart' as di;
@@ -13,7 +14,24 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  var country;
+  Future<void> sherad() async {
+    final prefs = await SharedPreferences.getInstance();
+    country = prefs.getString('country') ?? 'us';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    sherad();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -25,7 +43,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: appTheme,
         title: 'News',
-        home: const NewsPage(),
+        home: NewsPage(country: country),
       ),
     );
   }
