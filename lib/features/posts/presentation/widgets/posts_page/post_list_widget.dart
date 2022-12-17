@@ -67,11 +67,11 @@ class PostListWidget extends StatelessWidget {
                                   .replaceAll(',', '')
                                   .replaceAll(')', '')
                                   .replaceAll('(', ''),
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             color: Colors.black,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                         ),
                         Text(
@@ -82,7 +82,7 @@ class PostListWidget extends StatelessWidget {
                                   .replaceAll(',', '')
                                   .replaceAll(')', '')
                                   .replaceAll('(', ''),
-                          maxLines: 4,
+                          maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             color: Colors.grey,
@@ -98,7 +98,7 @@ class PostListWidget extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                 color: Colors.grey,
-                                fontSize: 20,
+                                fontSize: 12,
                               ),
                             ),
                           ],

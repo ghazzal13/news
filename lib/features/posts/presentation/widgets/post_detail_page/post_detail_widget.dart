@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:random_words/random_words.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../../core/app_theme.dart';
@@ -67,13 +68,25 @@ class PostDetailWidget extends StatelessWidget {
               height: 10,
             ),
             Text(
-              post.description,
+              post.description ??
+                  nouns
+                      .take(12)
+                      .toString()
+                      .replaceAll(',', '')
+                      .replaceAll(')', '')
+                      .replaceAll('(', ''),
               style: const TextStyle(
                 fontSize: 16,
               ),
             ),
             Text(
-              post.content,
+              post.content ??
+                  nouns
+                      .take(12)
+                      .toString()
+                      .replaceAll(',', '')
+                      .replaceAll(')', '')
+                      .replaceAll('(', ''),
               maxLines: 30,
               style: const TextStyle(
                 fontSize: 16,
